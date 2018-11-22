@@ -10,7 +10,13 @@ class Processos:
         self.disco = processo[7]
         self.PID = None
         self.execucao = 0
-        self.intruc = []
+        self.instruc = []
     
     def __str__(self):
-        return ("t_init= {}, prio ={}, id= {}".format(self.t_init, self.prioridade,self.PID ))
+        return ("t_init= {}, prio ={}," \
+        "id= {} inst= {}".format(self.t_init, self.prioridade,self.PID,self.instruc ))
+
+    def set_inst(self,instructions):
+        for inst in instructions:
+            if (self.PID == int(inst[0])):
+                self.instruc.append(inst)

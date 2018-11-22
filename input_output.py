@@ -23,5 +23,9 @@ def gera_arquivos(fileFiles):
     for it in range(2, i+2):
         vetor.append(temporario[it])
     disco = arquivos.G_Arquivos(vetor)
+    instructions = []
+    for it in range(i+2,len(temporario)):
+        instructions.append(temporario[it])
     print(disco)
-    return disco
+    print(instructions)
+    return [disco,instructions]

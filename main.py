@@ -1,5 +1,5 @@
 import sys
-import processos as gproc
+# import processos as gproc
 import memoria as gmem
 import recursos as ges
 import arquivos as garq
@@ -20,9 +20,10 @@ def start():
         fileFiles = sys.argv[2]
     #abre o arquivo a ser lido e gera um vetor de processos.
     processos = gera_processos(fileProc)
+    [disco,instructions] = gera_arquivos(fileFiles)
     for processo in processos:
+        processo.set_inst(instructions)
         print ("processo = {}".format(processo))
-    files = gera_arquivos(fileFiles)
 
     
 if __name__ == '__main__':
