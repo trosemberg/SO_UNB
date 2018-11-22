@@ -27,5 +27,4 @@ def gera_arquivos(fileFiles):
     for it in range(i+2,len(temporario)):
         instructions.append(temporario[it])
     print(disco)
-    print(instructions)
     return [disco,instructions]

@@ -17,10 +17,13 @@ class Processos:
         "id= {} inst= {}".format(self.t_init, self.prioridade,self.PID,self.instruc ))
 
     def set_inst(self,instructions):
+        rest = instructions
         for inst in instructions:
             real_inst = inst.split(',')
             if (self.PID == int(real_inst[0])):
+                rest = filter(lambda x : x != inst, rest)
                 if (int(real_inst[1])== 0):
                     self.instruc.append([int(real_inst[1]),real_inst[2],real_inst[3]])
                 else:
                     self.instruc.append([int(real_inst[1]),real_inst[2]])
+        return (rest)

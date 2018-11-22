@@ -22,8 +22,9 @@ def start():
     processos = gera_processos(fileProc)
     [disco,instructions] = gera_arquivos(fileFiles)
     for processo in processos:
-        processo.set_inst(instructions)
+        instructions = processo.set_inst(instructions)
         print ("processo = {}".format(processo))
+    print("instrucao sem processo para ser executada {}".format(instructions))
     
 
     
