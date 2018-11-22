@@ -1,21 +1,32 @@
 import sys
 import processos as gproc
 import memoria as gmem
-import es as ges
+import recursos as ges
 import arquivos as garq
+from input_output import gera_processos 
+
 """
-    Os imports estão sendo feitos como g+primeira letra do import pois é gerenciador de...
+    Os imports estao sendo feitos como g+primeira letra do import pois e gerenciador de...
     es = entrada e saida
 """
 
 def start():
+    eae = 0
+    processos = []
     fileProc = "processes.txt"
     fileFiles = "files.txt"
+    #checa se teve como entrada o nome dos arquivos a serem lidos, se sim seta pra eles a leitura
     if (len(sys.argv) == 3):
         fileProc = sys.argv[1]
         fileFiles = sys.argv[2]
-    process = open(fileProc,"r")
-    files = open(fileFiles, "r")
+    #abre o arquivo a ser lido e gera um vetor de processos.
+    processos = gera_processos(fileProc)
+    for processo in processos:
+        print ("processo = {}".format(processo))
+    with open (fileFiles,"r") as input_file:
+        for linha in input_file:
+            eae+=1
+
     
 if __name__ == '__main__':
     start()
