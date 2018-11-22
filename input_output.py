@@ -12,3 +12,10 @@ def gera_processos(fileProc):
         processo.PID = id
         id+=1
     return processos
+
+def gera_arquivos(fileFiles):
+    with open (fileFiles,"r") as input_file:
+        temporario = input_file.read().splitlines()
+    
+    print (temporario)
+    return "oi"

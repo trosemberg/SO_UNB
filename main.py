@@ -3,7 +3,7 @@ import processos as gproc
 import memoria as gmem
 import recursos as ges
 import arquivos as garq
-from input_output import gera_processos 
+from input_output import gera_processos,gera_arquivos
 
 """
     Os imports estao sendo feitos como g+primeira letra do import pois e gerenciador de...
@@ -23,9 +23,7 @@ def start():
     processos = gera_processos(fileProc)
     for processo in processos:
         print ("processo = {}".format(processo))
-    with open (fileFiles,"r") as input_file:
-        for linha in input_file:
-            eae+=1
+    files = gera_arquivos(fileFiles)
 
     
 if __name__ == '__main__':
