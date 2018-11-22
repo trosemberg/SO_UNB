@@ -24,11 +24,11 @@ class G_Arquivos:
 
 class Arquivos:
     def __init__(self,creator = None):
-        self.name = ""
+        self.name = 0
         self.start = 0
         self.size = 0
         self.creator = creator
 
     def __str__(self):
-        return ("name={},start={},size={}  ".format(self.name,self.start,self.size))
+        return ("|{}".format(self.name))
 
