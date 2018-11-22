@@ -18,5 +18,9 @@ class Processos:
 
     def set_inst(self,instructions):
         for inst in instructions:
-            if (self.PID == int(inst[0])):
-                self.instruc.append(inst)
+            real_inst = inst.split(',')
+            if (self.PID == int(real_inst[0])):
+                if (int(real_inst[1])== 0):
+                    self.instruc.append([int(real_inst[1]),real_inst[2],real_inst[3]])
+                else:
+                    self.instruc.append([int(real_inst[1]),real_inst[2]])

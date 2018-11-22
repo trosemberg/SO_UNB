@@ -24,6 +24,7 @@ def start():
     for processo in processos:
         processo.set_inst(instructions)
         print ("processo = {}".format(processo))
+    
 
     
 if __name__ == '__main__':
