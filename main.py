@@ -11,7 +11,6 @@ from input_output import gera_processos,gera_arquivos
 """
 
 def start():
-    eae = 0
     processos = []
     fileProc = "processes.txt"
     fileFiles = "files.txt"
