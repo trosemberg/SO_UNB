@@ -11,6 +11,7 @@ from input_output import gera_processos,gera_arquivos
 """
 
 def start():
+    memoria = gmem.G_Memoria()
     processos = []
     fileProc = "processes.txt"
     fileFiles = "files.txt"
@@ -20,14 +21,16 @@ def start():
         fileFiles = sys.argv[2]
     #abre o arquivo a ser lido e gera um vetor de processos.
     processos = gera_processos(fileProc)
-    [disco,instructions] = gera_arquivos(fileFiles)
+    [vetor,instructions] = gera_arquivos(fileFiles)
+    disco = garq.G_Arquivos(vetor)
+    print(disco)
     for processo in processos:
         instructions = processo.set_inst(instructions)
         print ("processo: {}".format(processo))
     print("instrucao sem processo para ser executada {}".format(instructions))
     g_processos = gproc.G_Processos(processos)
     tempo = 0
-    while(tempo < 10):
+    while(tempo < 15):
         g_processos.org_filas(tempo)
         print("tempo:{}\n{}".format(tempo,g_processos))
         tempo+=1

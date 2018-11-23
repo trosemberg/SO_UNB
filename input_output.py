@@ -1,5 +1,4 @@
 import processos as gproc
-import arquivos
 def gera_processos(fileProc):
     id = 0
     processos= []
@@ -22,9 +21,7 @@ def gera_arquivos(fileFiles):
     i = int(temporario[1])
     for it in range(2, i+2):
         vetor.append(temporario[it])
-    disco = arquivos.G_Arquivos(vetor)
     instructions = []
     for it in range(i+2,len(temporario)):
         instructions.append(temporario[it])
-    print(disco)
-    return [disco,instructions]
+    return [vetor,instructions]
