@@ -41,7 +41,6 @@ class G_Processos:
         self.fila_p2 = []
         self.fila_p3 = []
         self.usuario = []
-        self.t_real = []
         self.fora_filas = processos
         self.execu = []
 
@@ -71,12 +70,11 @@ class G_Processos:
     
     def org_filas(self,tempo):
         for processo in self.fora_filas:
-            if(len(self.t_real)+len(self.usuario) >=1000):
+            if(len(self.fila_p0)+len(self.usuario) >=1000):
                 break
             if ((processo.t_init<= tempo)):
                 if(processo.prioridade == 0):
                     self.fila_p0.append(processo)
-                    self.t_real.append(processo)
                     self.fora_filas = filter(lambda x : x != processo,self.fora_filas)
                 if(processo.prioridade == 1):
                     self.fila_p1.append(processo)

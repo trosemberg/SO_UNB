@@ -11,7 +11,14 @@ from input_output import gera_processos,gera_arquivos
 """
 
 def start():
+    """
+        variavel memoria e responsavel pelo gerenciamento de memoria,
+        variavel drivers e responsavel pelo gerenciamento dos drivers
+        variavel disco e responsavel pelo gerenciamento dos arquivos em disco
+        variavel g_processos e responsavel pelo gerenciamento de processos
+    """
     memoria = gmem.G_Memoria()
+    drivers = ges.G_Drivers()
     processos = []
     fileProc = "processes.txt"
     fileFiles = "files.txt"
@@ -30,9 +37,10 @@ def start():
     print("instrucao sem processo para ser executada {}".format(instructions))
     g_processos = gproc.G_Processos(processos)
     tempo = 0
-    while(tempo < 15):
+    while((g_processos.fora_filas or g_processos.usuario or g_processos.fila_p0 )and tempo<20 ):
         g_processos.org_filas(tempo)
         print("tempo:{}\n{}".format(tempo,g_processos))
+        drivers.free_drives()
         tempo+=1
 
     
