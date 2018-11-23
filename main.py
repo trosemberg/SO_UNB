@@ -1,5 +1,5 @@
 import sys
-# import processos as gproc
+import processos as gproc
 import memoria as gmem
 import recursos as ges
 import arquivos as garq
@@ -23,9 +23,14 @@ def start():
     [disco,instructions] = gera_arquivos(fileFiles)
     for processo in processos:
         instructions = processo.set_inst(instructions)
-        print ("processo = {}".format(processo))
+        print ("processo: {}".format(processo))
     print("instrucao sem processo para ser executada {}".format(instructions))
-    
+    g_processos = gproc.G_Processos(processos)
+    tempo = 0
+    while(tempo < 10):
+        g_processos.org_filas(tempo)
+        print("tempo:{}\n{}".format(tempo,g_processos))
+        tempo+=1
 
     
 if __name__ == '__main__':
