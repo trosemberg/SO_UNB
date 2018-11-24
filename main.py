@@ -83,8 +83,11 @@ def start():
         #fim da execucao (implementando)
         #devolve ao final da fila os processos de usuario que foram executados menos vezes do 
         #que o tempo de processamento do processo
-        print("t {} real {}".format(tempo,g_proc.exec_real))
-        print("t {} user {}".format(tempo,g_proc.exec_user))
+        string = map(lambda x:x.__str__("fila"),g_proc.exec_real)
+        print("t {} real {}".format(tempo,string))
+        string = map(lambda x:x.__str__("fila"),g_proc.exec_user)
+        print("t {} user {}".format(tempo,string))
+
         g_proc.limpa_fila_exec_real()
         g_proc.proc_user_fila()
         #limpa a memoria de processos de usuario
@@ -94,7 +97,8 @@ def start():
         #vai para o proximo tempo
         tempo+=1
 
-
-    print(g_proc.output)    
+    string = map(lambda x:x.__str__("fila"),g_proc.output)
+    print("\nprocessos executados:\n{}".format(string)) 
+    print(disco)   
 if __name__ == '__main__':
     start()
