@@ -28,6 +28,7 @@ class G_Drivers:
                 self.sata[0] = True
             if(processo.sata == 2):
                 self.sata[1] = True
+        return is_driver_free
 
     def free_drives(self):
         self.scanner = [None]

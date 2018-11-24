@@ -10,8 +10,9 @@ class Processos:
         self.impressora = processo[4]
         self.scanner = processo[5]
         self.modem = processo[6]
-        self.disco = processo[7]
+        self.sata = processo[7]
         self.PID = None
+        self.pos = None
         self.execucao = 0
         self.instruc = []
     
