@@ -1,3 +1,4 @@
+import input_output as output
 TAM_MAX = 1000
 
 """
@@ -55,7 +56,9 @@ class G_Processos:
         self.fila_p3 = []
         self.usuario = []
         self.fora_filas = processos
-        self.execu = []
+        self.exec_user = []
+        self.exec_real = []
+        self.output = []
 
     def __str__(self):
         string = ""
@@ -121,3 +124,24 @@ class G_Processos:
                 self.fila_p3 = filter(lambda x : x != processo, self.fila_p3)
                 processo.prio_changed = True 
                 self.fila_p2.append(processo)
+    """
+        funcao responsavel por, apos a execucao,devolver ao final da fila os 
+        processos que nao terminaram execucao
+    """
+    def proc_user_fila(self):
+        for processo in self.exec_user:
+            if processo.execucao >= len(processo.instruc):
+                self.output.append(processo)
+            else:
+                if(processo.prioridade == 1):
+                    self.fila_p1.append(processo)
+                    self.usuario.append(processo)
+                    self.exec_user = filter(lambda x : x != processo,self.exec_user)
+                if(processo.prioridade == 2):
+                    self.fila_p2.append(processo)
+                    self.usuario.append(processo)
+                    self.exec_user = filter(lambda x : x != processo,self.exec_user)
+                if(processo.prioridade == 3):
+                    self.fila_p3.append(processo)
+                    self.usuario.append(processo)
+                    self.exec_user = filter(lambda x : x != processo,self.exec_user)

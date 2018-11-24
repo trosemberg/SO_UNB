@@ -27,6 +27,9 @@ class G_Arquivos:
         string += "|"
         return string
 
+    # def escreve_arquivo(self,processo):
+
+
 """
     Classe que representa um arquivo que sera armazenado em disco (G_Arquivos)
 """

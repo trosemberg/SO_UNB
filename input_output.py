@@ -1,4 +1,4 @@
-import processos as gproc
+import processo as gproc
 """
     Arquivo responsavel pelas funcoes que farao a leitura dos arquivos de entrada
     e pela saida do programa.

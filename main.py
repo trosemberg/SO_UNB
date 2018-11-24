@@ -1,5 +1,5 @@
 import sys
-import processos as gproc
+import processo as gproc
 import memoria as gmem
 import recursos as ges
 import arquivos as garq
@@ -40,10 +40,36 @@ def start():
     while((g_processos.fora_filas or g_processos.usuario or g_processos.fila_p0 )and tempo<20 ):
         g_processos.org_filas(tempo)
         g_processos.altera_prioridade(tempo)
+        for processo in g_processos.fila_p0:
+            if memoria.aloca_processo(processo):
+                g_processos.exec_real.append(processo)
+                g_processos.fila_p0 = filter(lambda x: x!= processo,g_processos.fila_p0)
+        for processo in g_processos.fila_p1:
+            if(drivers.get_drivers(processo)):
+                if memoria.aloca_processo(processo):
+                    g_processos.exec_user.append(processo)
+                    g_processos.fila_p1 = filter(lambda x: x!= processo,g_processos.fila_p1)
+                    g_processos.usuario = filter(lambda x: x!= processo,g_processos.usuario)
+        for processo in g_processos.fila_p2:
+            if(drivers.get_drivers(processo)):
+                if memoria.aloca_processo(processo):
+                    g_processos.exec_user.append(processo)
+                    g_processos.fila_p2 = filter(lambda x: x!= processo,g_processos.fila_p2)
+                    g_processos.usuario = filter(lambda x: x!= processo,g_processos.usuario)
+        for processo in g_processos.fila_p3:
+            if(drivers.get_drivers(processo)):
+                if memoria.aloca_processo(processo):
+                    g_processos.exec_user.append(processo)
+                    g_processos.fila_p3 = filter(lambda x: x!= processo,g_processos.fila_p3)
+                    g_processos.usuario = filter(lambda x: x!= processo,g_processos.usuario)
         print("tempo:{}\n{}".format(tempo,g_processos))
+        g_processos.proc_user_fila()
+        print("tempo:{}\n{}".format(tempo,g_processos))
+
+        memoria.limpa_memoria_usuario()
         drivers.free_drives()
         tempo+=1
 
-    
+    print(g_processos.output)    
 if __name__ == '__main__':
     start()

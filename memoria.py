@@ -38,6 +38,6 @@ class G_Memoria:
     """
         Funcao responsavel por limpar a memoria de usuario 
     """
-    def limpa_memoria_usuario(self,processo):
+    def limpa_memoria_usuario(self):
         self.memoria[REAL_SIZE:] =  USER_SIZE * [0]
     
