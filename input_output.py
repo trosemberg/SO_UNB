@@ -1,4 +1,12 @@
 import processos as gproc
+"""
+    Arquivo responsavel pelas funcoes que farao a leitura dos arquivos de entrada
+    e pela saida do programa.
+"""
+
+"""
+    Gera os processos a partir do primeiro arquivo
+"""
 def gera_processos(fileProc):
     id = 0
     processos= []
@@ -13,6 +21,10 @@ def gera_processos(fileProc):
         id+=1
     return processos
 
+"""
+    Responsavel por ler o segundo arquivo e retornar um vetor que sera usado para a criacao
+    da memoria de arquivos e as instrucoes para serem colocadas nos processos 
+"""
 def gera_arquivos(fileFiles):
     vetor = []
     with open (fileFiles,"r") as input_file:

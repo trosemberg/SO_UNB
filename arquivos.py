@@ -27,7 +27,9 @@ class G_Arquivos:
         string += "|"
         return string
 
-
+"""
+    Classe que representa um arquivo que sera armazenado em disco (G_Arquivos)
+"""
 class Arquivos:
     def __init__(self,creator = None):
         self.name = 0
