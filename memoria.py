@@ -24,7 +24,10 @@ class G_Memoria:
                 livre = 0
         return False
             
-    # def retira_processo(self,processo):
+    def retira_processo(self,processo):
+        self.memoria[processo.pos:processo.pos + processo.mem_bloc] = [0]*processo.mem_bloc
+
+
     def limpa_memoria_usuario(self,processo):
         self.memoria[REAL_SIZE:] =  USER_SIZE * [0]
     
