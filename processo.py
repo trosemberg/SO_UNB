@@ -130,7 +130,7 @@ class G_Processos:
     """
     def proc_user_fila(self):
         for processo in self.exec_user:
-            if processo.execucao >= len(processo.instruc):
+            if processo.execucao >= processo.t_proc:
                 self.output.append(processo)
             else:
                 if(processo.prioridade == 1):
