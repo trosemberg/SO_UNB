@@ -14,6 +14,7 @@ class Processos:
         self.PID = None
         self.pos = None
         self.execucao = 0
+        self.prio_changed = False
         self.instruc = []
     
     def __str__(self,flag = "normal"):
@@ -90,5 +91,17 @@ class G_Processos:
                     self.usuario.append(processo)
                     self.fora_filas = filter(lambda x : x != processo,self.fora_filas)
 
-
-
+    def altera_prioridade(self,tempo):
+        for processo in self.fila_p2:
+            if((processo.execucao == 0) and (processo.t_init + 9 < tempo) and (not processo.prio_changed)):
+                self.fila_p2 = filter(lambda x : x != processo, self.fila_p2) 
+                processo.prio_changed = True
+                self.fila_p1.append(processo)
+            elif((processo.execucao == 0) and (processo.t_init + 19 < tempo) and (processo.prio_changed)):
+                self.fila_p2 = filter(lambda x : x != processo, self.fila_p2) 
+                self.fila_p1.append(processo)
+        for processo in self.fila_p3:
+            if((processo.execucao == 0) and (processo.t_init + 9 < tempo) and (not processo.prio_changed)):
+                self.fila_p3 = filter(lambda x : x != processo, self.fila_p3)
+                processo.prio_changed = True 
+                self.fila_p2.append(processo)

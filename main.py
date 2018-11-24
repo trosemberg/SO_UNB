@@ -37,8 +37,9 @@ def start():
     print("instrucao sem processo para ser executada {}".format(instructions))
     g_processos = gproc.G_Processos(processos)
     tempo = 0
-    while((g_processos.fora_filas or g_processos.usuario or g_processos.fila_p0 )and tempo<20 ):
+    while((g_processos.fora_filas or g_processos.usuario or g_processos.fila_p0 )and tempo<40 ):
         g_processos.org_filas(tempo)
+        g_processos.altera_prioridade(tempo)
         print("tempo:{}\n{}".format(tempo,g_processos))
         drivers.free_drives()
         tempo+=1
