@@ -146,3 +146,12 @@ class G_Processos:
                     self.fila_p3.append(processo)
                     self.usuario.append(processo)
                     self.exec_user = filter(lambda x : x != processo,self.exec_user)
+    """
+        Tira os processos concluidos da fila de execuacao dos reais
+    """
+    def limpa_fila_exec_real(self):
+        for processo in self.exec_real:
+            if processo.execucao >= processo.t_proc:
+                self.exec_real = filter(lambda x : x != processo,self.exec_real)
+                self.output.append(processo)
+
