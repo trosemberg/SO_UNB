@@ -131,6 +131,7 @@ class G_Processos:
     def proc_user_fila(self):
         for processo in self.exec_user:
             if processo.execucao >= processo.t_proc:
+                self.exec_user = filter(lambda x : x != processo,self.exec_user)
                 self.output.append(processo)
             else:
                 if(processo.prioridade == 1):

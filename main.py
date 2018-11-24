@@ -39,7 +39,7 @@ def start():
     #enquanto houver processos a serem para entrarem nas filas ou processos de usuarios ou processos
     #de tempo real de tempo real sendo executados (nao precisa testar se tem processo
     # de usuario sendo executado, visto que nao tem nenhum sendo no momento da checagem)
-    while((g_proc.fora_filas or g_proc.usuario or g_proc.fila_p0 or g_proc.exec_real )and tempo<10 ):
+    while((g_proc.fora_filas or g_proc.usuario or g_proc.fila_p0 or g_proc.exec_real )and tempo<20 ):
         # checa se chegou processo no tempo e encaminha a fila certa
         g_proc.org_filas(tempo)
         # altera prioridade de processos que estao esperando a muito tempo sem ser executado
@@ -75,8 +75,12 @@ def start():
                     g_proc.fila_p3 = filter(lambda x: x!= processo,g_proc.fila_p3)
                     g_proc.usuario = filter(lambda x: x!= processo,g_proc.usuario)
 
-        #executa as instrucoes (falta implementar)
-
+        #executa as instrucoes (falta implementar) comeca aqui
+        for processo in g_proc.exec_real:
+            processo.execucao +=1
+        for processo in g_proc.exec_user:
+            processo.execucao +=1
+        #fim da execucao (implementando)
         #devolve ao final da fila os processos de usuario que foram executados menos vezes do 
         #que o tempo de processamento do processo
         g_proc.proc_user_fila()
@@ -86,6 +90,8 @@ def start():
         drivers.free_drives()
         #vai para o proximo tempo
         tempo+=1
+        print("t {} real {}".format(tempo,g_proc.exec_real))
+        print("t {} user {}".format(tempo,g_proc.exec_user))
 
     print(g_proc.output)    
 if __name__ == '__main__':
