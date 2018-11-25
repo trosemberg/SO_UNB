@@ -37,3 +37,22 @@ def gera_arquivos(fileFiles):
     for it in range(i+2,len(temporario)):
         instructions.append(temporario[it])
     return [vetor,instructions]
+
+class Output:
+    def __init__(self):
+        self.log_instrucoes = []
+
+    def print_disco(self,disco):
+        print(disco)
+    
+    def print_dispatcher(self,processo):
+        print('dispatcher =>')
+        print('\tPID:\t\t {}'.format(processo.PID))
+        print('\toffset:\t\t {}'.format(processo.pos))
+        print('\tblocks:\t\t {}'.format(processo.mem_bloc))
+        print('\tpriority:\t {}'.format(processo.prioridade))
+        print('\ttime:\t\t {}'.format(processo.t_proc))
+        print('\tprinters:\t {}'.format(bool(processo.impressora)))
+        print('\tscanner:\t {}'.format(bool(processo.scanner)))
+        print('\tmodem:\t\t {}'.format(bool(processo.modem)))
+        print('\tdrives:\t\t {}'.format(bool(processo.sata)))

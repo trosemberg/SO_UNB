@@ -3,7 +3,7 @@ import processo as gproc
 import memoria as gmem
 import recursos as ges
 import arquivos as garq
-from input_output import gera_processos,gera_arquivos
+from input_output import gera_processos,gera_arquivos, Output
 
 """
     Os imports estao sendo feitos como g+primeira letra do import pois e gerenciador de...
@@ -16,9 +16,11 @@ def start():
         variavel drivers e responsavel pelo gerenciamento dos drivers
         variavel disco e responsavel pelo gerenciamento dos arquivos em disco
         variavel g_proc e responsavel pelo gerenciamento de processos
+        variavel saida e responsavel pro printar na tela as saidas do programa
     """
     memoria = gmem.G_Memoria()
     drivers = ges.G_Drivers()
+    saida = Output()
     processos = []
     fileProc = "processes.txt"
     fileFiles = "files.txt"
@@ -50,6 +52,7 @@ def start():
             if memoria.aloca_processo(processo):
                 g_proc.exec_real.append(processo)
                 g_proc.fila_p0 = filter(lambda x: x!= processo,g_proc.fila_p0)
+                saida.print_dispatcher(processo)
         #varre fila de prioridade 1 e se for possivel alocar processo, tira da fila
         # e coloca na fila de execucao de processos de usuario        
         for processo in g_proc.fila_p1:
@@ -58,6 +61,7 @@ def start():
                     g_proc.exec_user.append(processo)
                     g_proc.fila_p1 = filter(lambda x: x!= processo,g_proc.fila_p1)
                     g_proc.usuario = filter(lambda x: x!= processo,g_proc.usuario)
+                    saida.print_dispatcher(processo)
         #varre fila de prioridade 2 e se for possivel alocar processo, tira da fila
         # e coloca na fila de execucao de processos de usuario 
         for processo in g_proc.fila_p2:
@@ -66,6 +70,7 @@ def start():
                     g_proc.exec_user.append(processo)
                     g_proc.fila_p2 = filter(lambda x: x!= processo,g_proc.fila_p2)
                     g_proc.usuario = filter(lambda x: x!= processo,g_proc.usuario)
+                    saida.print_dispatcher(processo)
         #varre fila de prioridade 3 e se for possivel alocar processo, tira da fila
         # e coloca na fila de execucao de processos de usuario 
         for processo in g_proc.fila_p3:
@@ -74,7 +79,7 @@ def start():
                     g_proc.exec_user.append(processo)
                     g_proc.fila_p3 = filter(lambda x: x!= processo,g_proc.fila_p3)
                     g_proc.usuario = filter(lambda x: x!= processo,g_proc.usuario)
-
+                    saida.print_dispatcher(processo)
         #executa as instrucoes (falta implementar) comeca aqui
         for processo in g_proc.exec_real:
             processo.execucao +=1
@@ -99,6 +104,6 @@ def start():
 
     string = map(lambda x:x.__str__("fila"),g_proc.output)
     print("\nprocessos executados:\n{}".format(string)) 
-    print(disco)   
+    saida.print_disco(disco)   
 if __name__ == '__main__':
     start()
