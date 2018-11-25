@@ -70,7 +70,8 @@ class G_Arquivos:
                 return string
             else:
                 return "Operacao nao existente"
-        else: return ""
+        else:
+            return processo.PID
 
 
 """
