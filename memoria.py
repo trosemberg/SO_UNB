@@ -5,7 +5,7 @@ USER_SIZE = 960
 """
 class G_Memoria:
     def __init__(self):
-        self.memoria = [0 for _ in range(0, REAL_SIZE+USER_SIZE)]
+        self.memoria = [None for _ in range(0, REAL_SIZE+USER_SIZE)]
     """
         aloca o processo na parte correta da memoria e retorna True se foi possivel alocar e
         False se nao foi possivel alocar
@@ -19,7 +19,7 @@ class G_Memoria:
             inicio = REAL_SIZE
             fim = REAL_SIZE+USER_SIZE
         for i in range(inicio,fim):
-            if(self.memoria[i] == 0):
+            if(self.memoria[i] == None):
                 livre +=1
                 if(livre == processo.mem_bloc):
                     processo.pos = i- processo.mem_bloc + 1
@@ -33,11 +33,11 @@ class G_Memoria:
         ja tiver terminado
     """     
     def retira_processo(self,processo):
-        self.memoria[processo.pos:processo.pos + processo.mem_bloc] = [0]*processo.mem_bloc
+        self.memoria[processo.pos:processo.pos + processo.mem_bloc] = [None]*processo.mem_bloc
 
     """
         Funcao responsavel por limpar a memoria de usuario 
     """
     def limpa_memoria_usuario(self):
-        self.memoria[REAL_SIZE:] =  USER_SIZE * [0]
+        self.memoria[REAL_SIZE:] =  USER_SIZE * [None]
     

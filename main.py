@@ -42,7 +42,7 @@ def start():
     #de tempo real de tempo real sendo executados (nao precisa testar se tem processo
     # de usuario sendo executado, visto que nao tem nenhum sendo no momento da checagem)
     saida.print_disco(disco)  
-    while(g_proc.fora_filas or g_proc.usuario or g_proc.fila_p0 or g_proc.exec_real):
+    while((g_proc.fora_filas or g_proc.usuario or g_proc.fila_p0 or g_proc.exec_real)and tempo<15):
         # checa se chegou processo no tempo e encaminha a fila certa
         g_proc.org_filas(tempo)
         # altera prioridade de processos que estao esperando a muito tempo sem ser executado
@@ -85,15 +85,19 @@ def start():
         result = ""
         for processo in g_proc.exec_real:
             processo.execucao +=1
-            saida.print_instructions(processo)
-            result = disco.executa(processo)
-            saida.log_instrucoes.append(result)
+            if processo.execucao<=len(processo.instruc):
+                saida.print_instructions(processo)
+                result = disco.executa(processo)
+                saida.log_instrucoes.append(result)
+            if processo.execucao>=processo.t_proc:
+                memoria.retira_processo(processo)         
         result = ""
         for processo in g_proc.exec_user:
             processo.execucao +=1
-            saida.print_instructions(processo)
-            result = disco.executa(processo)
-            saida.log_instrucoes.append(result)
+            if processo.instruc:
+                saida.print_instructions(processo)
+                result = disco.executa(processo)
+                saida.log_instrucoes.append(result)
 
         #fim da execucao (implementando)
         #devolve ao final da fila os processos de usuario que foram executados menos vezes do 
@@ -110,6 +114,8 @@ def start():
         #libera os drivers que foram alocados
         drivers.free_drives()
         #vai para o proximo tempo
+        print(tempo)
+        print(memoria.memoria[0:64])
         tempo+=1
 
     # string = map(lambda x:x.__str__("fila"),g_proc.output)

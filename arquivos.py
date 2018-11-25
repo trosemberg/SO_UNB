@@ -30,45 +30,47 @@ class G_Arquivos:
     def executa(self,processo):
         string = ""
         livre = 0
-        operacao = processo.instruc[processo.execucao -1][0]
-        nome_arq = processo.instruc[processo.execucao -1][1]
-        #op 0 = criar op 1 = deletar
-        if operacao == 0:
-            tamanho_arq = processo.instruc[processo.execucao -1][2]
-            for i in range(0,self.blocos_total):
-                if(self.blocos[i].name==0):
-                    livre +=1
-                    if livre == tamanho_arq:
-                        pos = i-tamanho_arq+1
-                        self.blocos[pos:i+1] = livre * [Arquivos(nome_arq,pos,tamanho_arq,processo.PID)]
-                        string = "Sucesso!\n"
-                        string += "O processo {} criou o arquivo {}".format(processo.PID,nome_arq)
-                        string += "(do bloco {} a {}).".format(pos,pos+tamanho_arq-1)
-                        break
-                else: 
-                    livre = 0
-                    string = "Falha!\n"
-                    string += "O processo {} ".format(processo.PID)
-                    string += "nao pode criar o arquivo {} (falta de espaco).".format(nome_arq)
-            return string
-        elif operacao == 1:
-            for i in range(0,self.blocos_total):
-                if(self.blocos[i].name == nome_arq):
-                    if((processo.PID == self.blocos[i].creator) or processo.prioridade == 0):
-                        size = self.blocos[i].size
-                        self.blocos[i:i+size] = size*[Arquivos()]
-                        string = "Sucesso!\n"
-                        string += "O processo {} deletou o arquivo {}.".format(processo.PID,nome_arq)
-                        break
+        if processo.execucao <=len(processo.instruc):
+            operacao = processo.instruc[processo.execucao -1][0]
+            nome_arq = processo.instruc[processo.execucao -1][1]
+            #op 0 = criar op 1 = deletar
+            if operacao == 0:
+                tamanho_arq = processo.instruc[processo.execucao -1][2]
+                for i in range(0,self.blocos_total):
+                    if(self.blocos[i].name==0):
+                        livre +=1
+                        if livre == tamanho_arq:
+                            pos = i-tamanho_arq+1
+                            self.blocos[pos:i+1] = livre * [Arquivos(nome_arq,pos,tamanho_arq,processo.PID)]
+                            string = "Sucesso!\n"
+                            string += "O processo {} criou o arquivo {}".format(processo.PID,nome_arq)
+                            string += "(do bloco {} a {}).".format(pos,pos+tamanho_arq-1)
+                            break
+                    else: 
+                        livre = 0
+                        string = "Falha!\n"
+                        string += "O processo {} ".format(processo.PID)
+                        string += "nao pode criar o arquivo {} (falta de espaco).".format(nome_arq)
+                return string
+            elif operacao == 1:
+                for i in range(0,self.blocos_total):
+                    if(self.blocos[i].name == nome_arq):
+                        if((processo.PID == self.blocos[i].creator) or processo.prioridade == 0):
+                            size = self.blocos[i].size
+                            self.blocos[i:i+size] = size*[Arquivos()]
+                            string = "Sucesso!\n"
+                            string += "O processo {} deletou o arquivo {}.".format(processo.PID,nome_arq)
+                            break
+                        else:
+                            string = "Falha!\n"
+                            string+= "O processo {} nao pode deletar o arquivo {}".format(processo.PID,nome_arq)
                     else:
                         string = "Falha!\n"
-                        string+= "O processo {} nao pode deletar o arquivo {}".format(processo.PID,nome_arq)
-                else:
-                    string = "Falha!\n"
-                    string += "Nao existe o arquivo {}".format(nome_arq)
-            return string
-        else:
-            return "Operacao nao existente"
+                        string += "Nao existe o arquivo {}".format(nome_arq)
+                return string
+            else:
+                return "Operacao nao existente"
+        else: return ""
 
 
 """
