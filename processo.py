@@ -151,7 +151,7 @@ class G_Processos:
     """
     def limpa_fila_exec_real(self):
         for processo in self.exec_real:
-            if processo.execucao >= processo.t_proc:
+            if (processo.execucao >= processo.t_proc) or (processo.execucao >= len(processo.instruc)):
                 self.exec_real = filter(lambda x : x != processo,self.exec_real)
                 self.output.append(processo)
 

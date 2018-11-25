@@ -56,3 +56,20 @@ class Output:
         print('\tscanner:\t {}'.format(bool(processo.scanner)))
         print('\tmodem:\t\t {}'.format(bool(processo.modem)))
         print('\tdrives:\t\t {}'.format(bool(processo.sata)))
+    
+    def print_log(self):
+        operacao = 0
+        print('Sistema de Arquivos =>')
+        for log in self.log_instrucoes:
+            operacao +=1
+            print("Operacao {}=>".format(operacao))
+            print(log)
+
+    def print_instructions(self,processo):
+        if processo.execucao == 1:
+            print("P{} STARTED".format(processo.PID))
+        print("P{} instruction {}".format(processo.PID,processo.execucao))
+        if processo.execucao == processo.t_proc:
+            print("P{} return SIGINT".format(processo.PID))
+
+

@@ -41,6 +41,7 @@ def start():
     #enquanto houver processos a serem para entrarem nas filas ou processos de usuarios ou processos
     #de tempo real de tempo real sendo executados (nao precisa testar se tem processo
     # de usuario sendo executado, visto que nao tem nenhum sendo no momento da checagem)
+    saida.print_disco(disco)  
     while(g_proc.fora_filas or g_proc.usuario or g_proc.fila_p0 or g_proc.exec_real):
         # checa se chegou processo no tempo e encaminha a fila certa
         g_proc.org_filas(tempo)
@@ -81,17 +82,26 @@ def start():
                     g_proc.usuario = filter(lambda x: x!= processo,g_proc.usuario)
                     saida.print_dispatcher(processo)
         #executa as instrucoes (falta implementar) comeca aqui
+        result = ""
         for processo in g_proc.exec_real:
             processo.execucao +=1
+            saida.print_instructions(processo)
+            result = disco.executa(processo)
+            saida.log_instrucoes.append(result)
+        result = ""
         for processo in g_proc.exec_user:
             processo.execucao +=1
+            saida.print_instructions(processo)
+            result = disco.executa(processo)
+            saida.log_instrucoes.append(result)
+
         #fim da execucao (implementando)
         #devolve ao final da fila os processos de usuario que foram executados menos vezes do 
         #que o tempo de processamento do processo
-        string = map(lambda x:x.__str__("fila"),g_proc.exec_real)
-        print("t {} real {}".format(tempo,string))
-        string = map(lambda x:x.__str__("fila"),g_proc.exec_user)
-        print("t {} user {}".format(tempo,string))
+        # string = map(lambda x:x.__str__("fila"),g_proc.exec_real)
+        # print("t {} real {}".format(tempo,string))
+        # string = map(lambda x:x.__str__("fila"),g_proc.exec_user)
+        # print("t {} user {}".format(tempo,string))
 
         g_proc.limpa_fila_exec_real()
         g_proc.proc_user_fila()
@@ -102,8 +112,9 @@ def start():
         #vai para o proximo tempo
         tempo+=1
 
-    string = map(lambda x:x.__str__("fila"),g_proc.output)
-    print("\nprocessos executados:\n{}".format(string)) 
+    # string = map(lambda x:x.__str__("fila"),g_proc.output)
+    # print("\nprocessos executados:\n{}".format(string)) 
+    saida.print_log()
     saida.print_disco(disco)   
 if __name__ == '__main__':
     start()
