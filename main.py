@@ -84,15 +84,18 @@ def start():
         result = ""
         for processo in g_proc.exec_real:
             processo.execucao +=1
+            #so executa se tiver instrucoes a serem executadas
             if (processo.execucao<=len(processo.instruc)):
                 saida.print_instructions(processo)
                 result = disco.executa(processo)
                 saida.log_instrucoes.append(result)
+            #retira processo se ja executou as vezes necessarias
             if processo.execucao>=processo.t_proc:
                 memoria.retira_processo(processo)         
         result = ""
         for processo in g_proc.exec_user:
             processo.execucao +=1
+            #executa as instrucoes equivalente ao tempo de processamento
             if (processo.execucao<=len(processo.instruc)):
                 saida.print_instructions(processo)
                 result = disco.executa(processo)
@@ -101,11 +104,6 @@ def start():
         #fim da execucao
         #devolve ao final da fila os processos de usuario que foram executados menos vezes do 
         #que o tempo de processamento do processo
-        # string = map(lambda x:x.__str__("fila"),g_proc.exec_real)
-        # print("t {} real {}".format(tempo,string))
-        # string = map(lambda x:x.__str__("fila"),g_proc.exec_user)
-        # print("t {} user {}".format(tempo,string))
-
         g_proc.limpa_fila_exec_real()
         g_proc.proc_user_fila()
         #limpa a memoria de processos de usuario
@@ -114,8 +112,9 @@ def start():
         drivers.free_drives()
         #vai para o proximo tempo
         tempo+=1
-
+    #printa o log de processos
     saida.print_log()
+    #printa o mapa de disco
     saida.print_disco(disco)   
 if __name__ == '__main__':
     start()

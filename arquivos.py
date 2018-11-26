@@ -26,7 +26,11 @@ class G_Arquivos:
             string += str(bloco)
         string += "|"
         return string
-
+    """
+        Funcao responsavel por executar as intrucoes do processo com base na 
+        execucao atual e posicao do vetor de instrucoes do processo.
+        Retorna uma string com o log para ser impresso na tela depois.
+    """
     def executa(self,processo):
         string = ""
         livre = 0

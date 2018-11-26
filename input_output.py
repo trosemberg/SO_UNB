@@ -38,13 +38,21 @@ def gera_arquivos(fileFiles):
         instructions.append(temporario[it])
     return [vetor,instructions]
 
+"""
+    classe responsavel por dar as saidas do programa
+"""
+
 class Output:
     def __init__(self):
         self.log_instrucoes = []
-
+    """
+        Imprime o mapa do disco
+    """
     def print_disco(self,disco):
         print(disco)
-    
+    """
+        imprime a mensagem do dispatcher do referido processo
+    """
     def print_dispatcher(self,processo):
         print('dispatcher =>')
         print('\tPID:\t\t {}'.format(processo.PID))
@@ -56,7 +64,9 @@ class Output:
         print('\tscanner:\t {}'.format(bool(processo.scanner)))
         print('\tmodem:\t\t {}'.format(bool(processo.modem)))
         print('\tdrives:\t\t {}'.format(bool(processo.sata)))
-    
+    """
+        imprime o log das operacoes executadas
+    """
     def print_log(self):
         operacao = 0
         print('Sistema de Arquivos =>')
@@ -64,7 +74,9 @@ class Output:
             operacao +=1
             print("Operacao {}=>".format(operacao))
             print(log)
-
+    """
+        imprime se o processo comecou, a instrucao executada e se acabou o processo
+    """
     def print_instructions(self,processo):
         if processo.execucao == 1:
             print("P{} STARTED".format(processo.PID))
