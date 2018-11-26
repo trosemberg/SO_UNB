@@ -70,7 +70,7 @@ class G_Arquivos:
                             string+= "O processo {} nao pode deletar o arquivo {}".format(processo.PID,nome_arq)
                     else:
                         string = "Falha!\n"
-                        string += "Nao existe o arquivo {}".format(nome_arq)
+                        string += "Processo {}: Nao existe o arquivo {}".format(processo.PID,nome_arq)
                 return string
             else:
                 return "Operacao nao existente"

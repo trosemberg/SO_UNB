@@ -4,7 +4,8 @@ import memoria as gmem
 import recursos as ges
 import arquivos as garq
 from input_output import gera_processos,gera_arquivos, Output
-
+REAL_SIZE = 64
+USER_SIZE = 960
 """
     Os imports estao sendo feitos como g+primeira letra do import pois e gerenciador de...
     es = entrada e saida
@@ -36,6 +37,15 @@ def start():
         instructions = processo.set_inst(instructions)
     #cria o gerenciador de processos
     g_proc = gproc.G_Processos(processos)
+    memory_leak = []
+    for processo in g_proc.fora_filas:
+        if ((processo.mem_bloc>REAL_SIZE)and(processo.prioridade == 0)):
+            memory_leak.append(processo)
+            g_proc.fora_filas = filter(lambda x: x!= processo, g_proc.fora_filas)
+        elif ((processo.mem_bloc>USER_SIZE)and(processo.prioridade != 0)):
+            memory_leak.append(processo)
+            g_proc.fora_filas = filter(lambda x: x!= processo, g_proc.fora_filas)
+
     tempo = 0
     #enquanto houver processos a serem para entrarem nas filas ou processos de usuarios ou processos
     #de tempo real de tempo real sendo executados (nao precisa testar se tem processo
@@ -112,9 +122,17 @@ def start():
         #vai para o proximo tempo
         tempo+=1
     #printa o log de processos
+    for instrucao in instructions:
+        instruct = [x for x in instrucao.split(',')]
+        string = "Falha!\n Nao existe o processo {}".format(instruct[0])
+        string+=" para executar instrucao {}".format(instruct[1:])
+        saida.log_instrucoes.append(string)
+    for processo in memory_leak:
+        string = "Falha!\n O processo {} requeriu mais".format(processo.PID)
+        string+=" memoria ({}) do que podia por ser prioridade {}".format(processo.mem_bloc,processo.prioridade)
+        saida.log_instrucoes.append(string) 
     saida.print_log()
     #printa o mapa de disco
-    saida.print_disco(disco)
-    print("instrucao sem processo para ser executada {}".format(instructions))   
+    saida.print_disco(disco)  
 if __name__ == '__main__':
     start()
