@@ -3,7 +3,7 @@
 """
 
 class G_Arquivos:
-    #init e a inicializacao do gerenciador de arquivos, onde ja inicializa com as infos passadas
+    # init e a inicializacao do gerenciador de arquivos, onde ja inicializa com as infos passadas
     def __init__(self,vetor):
         self.blocos = []
         self.blocos_total = int(vetor[0])
@@ -19,7 +19,7 @@ class G_Arquivos:
                     self.blocos[i].start = pos_ini
                     self.blocos[i].name = temp[0]
                     self.blocos[i].size = pos_fim-pos_ini+1
-    #classe responsavel por retornar a string q sera printada caso chame print(G_Arquivos)
+    # classe responsavel por retornar a string q sera printada caso chame print(G_Arquivos)
     def __str__(self):
         string = "MAPA DOS BLOCOS DO DISCO:\n\t"
         for bloco in self.blocos:
@@ -37,7 +37,7 @@ class G_Arquivos:
         if processo.execucao <=len(processo.instruc):
             operacao = processo.instruc[processo.execucao -1][0]
             nome_arq = processo.instruc[processo.execucao -1][1]
-            #op 0 = criar op 1 = deletar
+            # op 0 = criar op 1 = deletar
             if operacao == 0:
                 tamanho_arq = processo.instruc[processo.execucao -1][2]
                 for i in range(0,self.blocos_total):

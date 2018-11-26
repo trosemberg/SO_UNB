@@ -25,19 +25,22 @@ def start():
     processos = []
     fileProc = "processes.txt"
     fileFiles = "files.txt"
-    #checa se teve como entrada o nome dos arquivos a serem lidos, se sim seta pra eles a leitura
+    # checa se teve como entrada o nome dos arquivos a serem lidos, se sim seta pra eles a leitura
     if (len(sys.argv) == 3):
         fileProc = sys.argv[1]
         fileFiles = sys.argv[2]
-    #abre o arquivo a ser lido e gera um vetor de processos.
+    # abre o arquivo a ser lido e gera um vetor de processos.
     processos = gera_processos(fileProc)
     [vetor,instructions] = gera_arquivos(fileFiles)
     disco = garq.G_Arquivos(vetor)
     for processo in processos:
         instructions = processo.set_inst(instructions)
-    #cria o gerenciador de processos
+    # cria o gerenciador de processos
     g_proc = gproc.G_Processos(processos)
     memory_leak = []
+    # verifica se todos os processos requisitam memoria sem extrapolar o valor 
+    # maximo que eles podem assumir, ou seja, 64 para processos de tempo real e 
+    # 960 para processos de Usuario, se requisitarem a mais eles sao excluidos
     for processo in g_proc.fora_filas:
         if ((processo.mem_bloc>REAL_SIZE)and(processo.prioridade == 0)):
             memory_leak.append(processo)
@@ -47,22 +50,22 @@ def start():
             g_proc.fora_filas = filter(lambda x: x!= processo, g_proc.fora_filas)
 
     tempo = 0
-    #enquanto houver processos a serem para entrarem nas filas ou processos de usuarios ou processos
-    #de tempo real de tempo real sendo executados (nao precisa testar se tem processo
+    # enquanto houver processos a serem para entrarem nas filas ou processos de usuarios ou processos
+    # de tempo real de tempo real sendo executados (nao precisa testar se tem processo
     # de usuario sendo executado, visto que nao tem nenhum sendo no momento da checagem) 
     while(g_proc.fora_filas or g_proc.usuario or g_proc.fila_p0 or g_proc.exec_real):
         # checa se chegou processo no tempo e encaminha a fila certa
         g_proc.org_filas(tempo)
         # altera prioridade de processos que estao esperando a muito tempo sem ser executado
         g_proc.altera_prioridade(tempo)
-        #varre fila de tempo real e se for possivel alocar processo, tira da fila de tempo real
+        # varre fila de tempo real e se for possivel alocar processo, tira da fila de tempo real
         # coloca na fila de execucao
         for processo in g_proc.fila_p0:
             if memoria.aloca_processo(processo):
                 g_proc.exec_real.append(processo)
                 g_proc.fila_p0 = filter(lambda x: x!= processo,g_proc.fila_p0)
                 saida.print_dispatcher(processo)
-        #varre fila de prioridade 1 e se for possivel alocar processo, tira da fila
+        # varre fila de prioridade 1 e se for possivel alocar processo, tira da fila
         # e coloca na fila de execucao de processos de usuario        
         for processo in g_proc.fila_p1:
             if(drivers.get_drivers(processo)):
@@ -71,7 +74,7 @@ def start():
                     g_proc.fila_p1 = filter(lambda x: x!= processo,g_proc.fila_p1)
                     g_proc.usuario = filter(lambda x: x!= processo,g_proc.usuario)
                     saida.print_dispatcher(processo)
-        #varre fila de prioridade 2 e se for possivel alocar processo, tira da fila
+        # varre fila de prioridade 2 e se for possivel alocar processo, tira da fila
         # e coloca na fila de execucao de processos de usuario 
         for processo in g_proc.fila_p2:
             if(drivers.get_drivers(processo)):
@@ -80,7 +83,7 @@ def start():
                     g_proc.fila_p2 = filter(lambda x: x!= processo,g_proc.fila_p2)
                     g_proc.usuario = filter(lambda x: x!= processo,g_proc.usuario)
                     saida.print_dispatcher(processo)
-        #varre fila de prioridade 3 e se for possivel alocar processo, tira da fila
+        # varre fila de prioridade 3 e se for possivel alocar processo, tira da fila
         # e coloca na fila de execucao de processos de usuario 
         for processo in g_proc.fila_p3:
             if(drivers.get_drivers(processo)):
@@ -89,50 +92,54 @@ def start():
                     g_proc.fila_p3 = filter(lambda x: x!= processo,g_proc.fila_p3)
                     g_proc.usuario = filter(lambda x: x!= processo,g_proc.usuario)
                     saida.print_dispatcher(processo)
-        #executa as instrucoes comeca aqui
+        # executa as instrucoes comeca aqui
         result = ""
         for processo in g_proc.exec_real:
             processo.execucao +=1
-            #so executa se tiver instrucoes a serem executadas
+            # so executa se tiver instrucoes a serem executadas
             if (processo.execucao<=len(processo.instruc)):
                 saida.print_instructions(processo)
                 result = disco.executa(processo)
                 saida.log_instrucoes.append(result)
-            #retira processo se ja executou as vezes necessarias
+            # retira processo se ja executou as vezes necessarias
             if processo.execucao>=processo.t_proc:
                 memoria.retira_processo(processo)         
         result = ""
         for processo in g_proc.exec_user:
             processo.execucao +=1
-            #executa as instrucoes equivalente ao tempo de processamento
+            # executa as instrucoes equivalente ao tempo de processamento
             if (processo.execucao<=len(processo.instruc)):
                 saida.print_instructions(processo)
                 result = disco.executa(processo)
                 saida.log_instrucoes.append(result)
 
-        #fim da execucao
-        #devolve ao final da fila os processos de usuario que foram executados menos vezes do 
-        #que o tempo de processamento do processo
+        # fim da execucao
+        # devolve ao final da fila os processos de usuario que foram executados menos vezes do 
+        # que o tempo de processamento do processo
         g_proc.limpa_fila_exec_real()
         g_proc.proc_user_fila()
-        #limpa a memoria de processos de usuario
+        # limpa a memoria de processos de usuario
         memoria.limpa_memoria_usuario()
-        #libera os drivers que foram alocados
+        # libera os drivers que foram alocados
         drivers.free_drives()
-        #vai para o proximo tempo
+        # vai para o proximo tempo
         tempo+=1
-    #printa o log de processos
+        # coloca no log de processos a ser printado, informarcoes de instrucoes que nao possuem
+        # processos atrelado a elas
     for instrucao in instructions:
         instruct = [x for x in instrucao.split(',')]
         string = "Falha!\n Nao existe o processo {}".format(instruct[0])
         string+=" para executar instrucao {}".format(instruct[1:])
         saida.log_instrucoes.append(string)
+        # coloca no log de processos a serem printrados, os processos que foram deletados
+        # das filas por requisitar mais memoria do que o permitido
     for processo in memory_leak:
         string = "Falha!\n O processo {} requeriu mais".format(processo.PID)
         string+=" memoria ({}) do que podia por ser prioridade {}".format(processo.mem_bloc,processo.prioridade)
         saida.log_instrucoes.append(string) 
+    # printa o log de processos
     saida.print_log()
-    #printa o mapa de disco
+    # printa o mapa de disco
     saida.print_disco(disco)  
 if __name__ == '__main__':
     start()
