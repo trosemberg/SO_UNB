@@ -30,6 +30,9 @@ nada do genêro.
 Os processos que ainda restarem execuções a serem feitas retornam ao final da sua devida fila de
 prioridade e depois incrementa-se o tempo. Repete-se tudo.
 
+Trabalho realizado com exito, professora gostou muito e disse que estava tudo certo
+postarei depois a nota recebida pelo trabalho
+
 
 
  
