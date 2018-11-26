@@ -88,7 +88,8 @@ class G_Processos:
     """
     def org_filas(self,tempo):
         for processo in self.fora_filas:
-            if(len(self.fila_p0)+len(self.usuario) >=1000):
+            if((len(self.fila_p0)+len(self.usuario) >=1000)and (processo.t_init<= tempo)):
+                self.fora_filas = filter(lambda x : x!= processo, self.fora_filas)
                 break
             if ((processo.t_init<= tempo)):
                 if(processo.prioridade == 0):

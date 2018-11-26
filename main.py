@@ -34,7 +34,6 @@ def start():
     disco = garq.G_Arquivos(vetor)
     for processo in processos:
         instructions = processo.set_inst(instructions)
-    print("instrucao sem processo para ser executada {}".format(instructions))
     #cria o gerenciador de processos
     g_proc = gproc.G_Processos(processos)
     tempo = 0
@@ -115,6 +114,7 @@ def start():
     #printa o log de processos
     saida.print_log()
     #printa o mapa de disco
-    saida.print_disco(disco)   
+    saida.print_disco(disco)
+    print("instrucao sem processo para ser executada {}".format(instructions))   
 if __name__ == '__main__':
     start()
