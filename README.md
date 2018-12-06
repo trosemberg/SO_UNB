@@ -12,6 +12,8 @@ Prof Aletéia UNB 2/2018
 
 ## Especificações do Projeto a seguir:
 
+### NOTA DO TRABALHO 9,5
+
 &nbsp;&nbsp;&nbsp;&nbsp;O projeto especifica o quantum do trabalho como sendo de **1(UM)**
 desta forma, a cada iteração as seguintes coisas devem ocorrer, checa se lista de processos está
 lotada (1000 processos), se  não estiver e estiver processos para entrar(tempo de inicialização
